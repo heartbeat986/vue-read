@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue 源码阅读</title>
+  </head>
+  <body>
+    <div id="app">
+      <span>{{msg}}</span>
+      <span>{{abc}}</span>
+      <button @click="doChange">点击修改</button>
+    </div>
+
+    <script src="../dist/vue.js"></script>
+    <script>
+      // debugger;
+      new Vue({
+        el: "#app",
+        data: {
+          msg: "hello",
+          abc: "",
+        },
+        mounted() {},
+        wacth: {},
+        methods: {
+          doChange() {
+            this.msg = "ddd";
+            var plugin = {
+              install: function (Vue, option) {
+                Vue.$myWarn = function () {
+                  console.log("报错了");
+                };
+              },
+            };
+            // 添加插件
+            Vue.use(plugin);
+            Vue.$myWarn();
+            let textNode = Vue.extend({
+              template: "<h1>今天是{{name}}</h1>",
+              props: {
+                name: {
+                  type: String,
+                  defualt: "星期一",
+                },
+              },
+            });
+            let vm = new textNode({ propsData: { name: "星期二" } }).$mount();
+            document.body.appendChild(vm.$el);
+            // v.component("textNode", textNode);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -120,6 +120,7 @@ export function makeMap (
 /**
  * Check if a tag is a built-in tag.
  */
+// const isBuiltInTag = function (val) {return map[val.toLowerCase()]}
 export const isBuiltInTag = makeMap('slot,component', true)
 
 /**
